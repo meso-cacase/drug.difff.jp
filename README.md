@@ -5,7 +5,7 @@
 販売名や一般名をインクリメンタル検索して高速に表示します。
 
 本ソフトウェアはオープンソースです。どなたでも無償で自由に利用できます。  
-くすりのリスト 稼働中： https://drug.difff.jp/
+**くすりのリスト** 稼働中： https://drug.difff.jp/
 
 ![スクリーンショット](https://user-images.githubusercontent.com/819807/75641263-f7b7ba00-5c7a-11ea-8660-dd6fbeebb29e.png
 "スクリーンショット")
