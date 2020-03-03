@@ -7,7 +7,7 @@
 本ソフトウェアはオープンソースです。どなたでも無償で自由に利用できます。  
 **くすりのリスト** 稼働中： https://drug.difff.jp/
 
-![スクリーンショット](https://user-images.githubusercontent.com/819807/75641263-f7b7ba00-5c7a-11ea-8660-dd6fbeebb29e.png
+![スクリーンショット](https://user-images.githubusercontent.com/819807/75746108-7e909380-5d5c-11ea-93f7-8e59e96b5653.gif
 "スクリーンショット")
 
 License
