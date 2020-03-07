@@ -36,7 +36,7 @@ function grep (pattern) {
 			matched = matched.replace(/\t/, '</td><td width=25%>') ;  // table整形
 			matched = matched.replace(/\t/, '</td><td width=30%>') ;  // table整形
 			matched = matched.replace(/$/,  '</td></tr>') ;           // table整形
-			hits += '<p>' + matched + '</p>' ;
+			hits += matched ;
 			count ++ ;
 			if (count > maxhit) {
 				break ;  // ヒット件数が多すぎる場合に途中で処理を打ち切る
@@ -44,9 +44,13 @@ function grep (pattern) {
 		}
 	}
 	var result = document.getElementById('searchresult') ;
+	var hitnum = document.getElementById('hitnumber') ;
 	if (count == 0 || count > maxhit) {
+		hitnum.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
 		result.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
 	} else {
+		hitnum.innerHTML = '<p>検索結果 ' + count + ' 件</p>' ;
+		hitnum.style.display = 'block' ;
 		result.innerHTML = hits ;
 		result.style.display = 'block' ;
 	}
@@ -88,9 +92,13 @@ function grep (pattern) {
 		padding:1px;
 		text-decoration:none;
 	}
+	.hitnumber {
+		width:85%;
+		margin:40px 40px 0px 40px;
+	}
 	.result {
 		width:85%;
-		margin:40px;
+		margin:0px 40px 40px 40px;
 		border-collapse:collapse;
 		white-space:pre-line;
 	}
@@ -127,6 +135,7 @@ function grep (pattern) {
 
 <!-- _____________________ 検索結果表示部 ___________________ -->
 
+<div id=hitnumber class=hitnumber style='display:none;'></div>
 <table id=searchresult class=result style='display:none;'></table>
 
 <!-- _____________________ つかいかた ______________________ -->
@@ -162,7 +171,7 @@ function grep (pattern) {
 
 <hr><!-- ____________________ フッタ _______________________ -->
 
-<p><font color=gray>くすりのリスト v.20200305 | @meso_cacase |
+<p><font color=gray>くすりのリスト v.20200307 | @meso_cacase |
 	<a target="_blank" href='https://github.com/meso-cacase/drug.difff.jp'>GitHub</a></font></p>
 
 <!-- _____________________ 検索文書データ ___________________ -->
