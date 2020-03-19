@@ -23,7 +23,9 @@ function grep (pattern) {
 	for (var i = 0 ; i < line.length ; i++) {
 		if (line[i].match(regex)) {
 			var matched = line[i] ;
-			var b_name  = matched.match(/^[^\t]+/) ;
+			var b_name  = matched.match(/^[^\t]+/)[0] ;
+			b_name = b_name.replace(/%/g, ' ') ;               // '%' を含むとヒットしない問題を回避
+			b_name = b_name.replace(/＜.*＞/g, ' ') ;           // '＜' または '＞' を含むとヒットしない問題を回避
 			matched = matched.replace(regex, '<em>$&</em>') ;  // ハイライト表示
 			if (matched.match(/\t\t/)){                        // 医療用医薬品かOTC医薬品かを判定（OTCは一般名が空欄）
 				matched = matched.replace(/\t/,                // OTC医薬品の添付文書へのリンクを付加
@@ -173,7 +175,7 @@ function grep (pattern) {
 
 <hr><!-- ____________________ フッタ _______________________ -->
 
-<p><font color=gray>くすりのリスト v.20200318 | @meso_cacase |
+<p><font color=gray>くすりのリスト v.20200319 | @meso_cacase |
 	<a target="_blank" href='https://github.com/meso-cacase/drug.difff.jp'>GitHub</a></font></p>
 
 <!-- _____________________ 検索文書データ ___________________ -->
