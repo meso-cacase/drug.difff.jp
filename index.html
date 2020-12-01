@@ -31,7 +31,7 @@ function grep (pattern) {
 			matched = matched.replace(regex, '<em>$&</em>') ;  // ハイライト表示
 			if (matched.match(/\t\t/)){                        // 医療用医薬品かOTC医薬品かを判定（OTCは一般名が空欄）
 				matched = matched.replace(/\t/,                // OTC医薬品の添付文書へのリンクを付加
-					' <a target="_blank" class=ln2 href="https://www.pmda.go.jp/PmdaSearch/otcSearch/?btnA.x=44&howtoMatchRadioValue=1&dispColumnsList%5B0%5D=1&dispColumnsList%5B1%5D=2&dispColumnsList%5B2%5D=11&dispColumnsList%5B3%5D=6&updateDocFrDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&updateDocToDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&howtoRdSearchSel=or&relationDoc1Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc1FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc1ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc2FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc3FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&ListRows=10&nameWord=' + encodeURI(b_name) + '">添付文書</a>\t') ;
+					' <a target="_blank" class=ln2 href="https://www.pmda.go.jp/PmdaSearch/otcSearch/?btnA.x=44&howtoMatchRadioValue=1&dispColumnsList%5B0%5D=1&dispColumnsList%5B1%5D=2&dispColumnsList%5B2%5D=11&dispColumnsList%5B3%5D=6&updateDocFrDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&updateDocToDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&howtoRdSearchSel=or&relationDoc1Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc1FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc1ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc2FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc3FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&ListRows=10&nameWord=' + encodeURI(b_name) + '">OTC添付文書</a>\t') ;
 			} else {
 				matched = matched.replace(/\t/,                // 医療用医薬品の添付文書へのリンクを付加
 					' <a target="_blank" class=ln href="https://www.pmda.go.jp/PmdaSearch/iyakuSearch/?btnA.y=6&iyakuHowtoNameSearchRadioValue=3&howtoMatchRadioValue=1&dispColumnsList%5B0%5D=1&dispColumnsList%5B1%5D=2&dispColumnsList%5B2%5D=3&dispColumnsList%5B3%5D=23&dispColumnsList%5B4%5D=4&dispColumnsList%5B5%5D=11&updateDocFrDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&updateDocToDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&howtoRdSearchSel=or&relationDoc1Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc1FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc1ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc2FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc3FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&ListRows=10&nameWord=' + encodeURI(b_name) + '">添付文書</a>\t') ;
@@ -52,11 +52,17 @@ function grep (pattern) {
 	if (count == 0 || count > maxhit) {
 		hitnum.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
 		result.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
+		document.getElementById('mum').src = 'mum-top.png' ;
 	} else {
 		hitnum.innerHTML = '<p>検索結果 ' + count + ' 件</p>' ;
 		hitnum.style.display = 'block' ;
 		result.innerHTML = hits ;
 		result.style.display = 'block' ;
+		if (count > 50) {
+			document.getElementById('mum').src = 'mum-lot.png' ;
+		} else {
+			document.getElementById('mum').src = 'mum-hit.png' ;
+		}
 	}
 }
 //-->
@@ -98,7 +104,7 @@ function grep (pattern) {
 	}
 	.hitnumber {
 		width:85%;
-		margin:40px 40px 0px 40px;
+		margin:13px 40px 0px 40px;
 	}
 	.result {
 		width:85%;
@@ -120,21 +126,21 @@ function grep (pattern) {
 
 <body>
 
-<!-- _____________________ ページタイトル ___________________ -->
+<!-- _____________________ タイトル＋検索フォーム ___________________ -->
 
-<div style='border-top:5px solid #00BBFF; padding-top:10px; padding-bottom:20px;'>
-<span onclick='query.value="";grep("")'><font size=5>くすりのリスト</font></span>
-<font size=3>医薬品のかんたん検索</font>
-</div>
-
-<!-- _____________________ 検索フォーム _____________________ -->
-
-<div>
-<form onsubmit='return false;'>
-<p>検索：
-<input type=text id=query name=pattern size=70 oninput='grep(this.value)'>
-</p>
-</form>
+<div style='padding:110px'>
+	<div style='position:absolute;top:0px;left:-10px;'>
+		<img src='mum-top.png' id=mum width=300>
+	</div>
+	<div style='position:absolute;top:45px;left:270px;text-align:center;'>
+		<span onclick='query.value="";grep("")'><font size=5>くすりのリスト</font></span><br>
+		<font size=3>医薬品のかんたん検索</font>
+	</div>
+	<div style='position:absolute;top:130px;left:210px;'>
+		<form onsubmit='return false;'>
+			<input type=text id=query name=pattern size=45 oninput='grep(this.value)'>
+		</form>
+	</div>
 </div>
 
 <!-- _____________________ 検索結果表示部 ___________________ -->
@@ -146,40 +152,44 @@ function grep (pattern) {
 
 <div>
 <ul>
-	<li>PMDAの公開する下記の医薬品情報を検索することができます。
-		<ul>
-			<li><a target='_blank' href='https://www.pmda.go.jp/PmdaSearch/iyakuSearch/'
-				>医療用医薬品 情報検索</a>
-			<li><a target='_blank' href='https://www.pmda.go.jp/PmdaSearch/otcSearch/'
-				>一般用医薬品・要指導医薬品 情報検索</a>
-			<li>本サイトのデータ更新：2020/11/15
-		</ul>
-	<li>本サイトは研究用です。十分にテストしていないため<b>医療現場では使用しないでください</b>。
+	<li>医療用医薬品およびOTC医薬品を名前（販売名、一般名）から検索できます。
+	<li><span class=ln>添付文書</span>・<span class=ln2>OTC添付文書</span>
+		&rarr; PMDAの提供する添付文書やインタビューフォーム等にリンクします。
 	<li>ヒットが1000件を超える場合は何も表示しません。
 	<li><a target='_blank' href='https://murashun.jp/blog/20190215-01.html'
-		>正規表現</a> を用いていろいろ検索できます。
+		>正規表現</a> を用いた検索例：
 		<ul>
-			<li>ゾフルーザ、ゾルフーザ（どっちだ??）→「ゾ..ーザ」
-			<li>プ○○○○軟膏（名前が思い出せない⋯⋯）→「^プ.*軟膏」
-			<li>イン○○○ではじまる軟膏orクリーム（何だっけ???）→「^イン.*(軟膏|クリーム)」
+			<li>ゾフルーザ、ゾルフーザ（どっちだ??）&rarr;<!--
+				-->「<a href='javascript:query.value="ゾ..ーザ";grep("ゾ..ーザ")'>ゾ..ーザ</a>」
+			<li>プ○○○○軟膏（名前が思い出せない⋯⋯）&rarr;<!--
+				-->「<a href='javascript:query.value="^プ.*軟膏";grep("^プ.*軟膏")'>^プ.*軟膏</a>」
+			<li>イン○○○ではじまる軟膏orクリーム（何だっけ???）&rarr;<!--
+				-->「<a href='javascript:query.value="^イン.*(軟膏|クリーム)";grep("^イン.*(軟膏|クリーム)")'>^イン.*(軟膏|クリーム)</a>」
 		</ul>
-	<li>参考情報
+	<li>本サイトに収録されている医薬品のリスト：
 		<ul>
-			<li>本サイトに収録されている医薬品リスト：<br>
-				<a href='iyaku_list.txt'>医療用医薬品</a> |
-				<a href='otc_list.txt'>OTC医薬品</a><!--
-				-->（2020/11/15更新）
-			<li><a href='https://github.com/meso-cacase/drug.difff.jp/commits/master'><!--
-				-->本サイトの更新履歴</a>
-			<li><a href='archive/'>過去のデータ</a>
+			<li><a href='https://drug.difff.jp/iyaku_list.txt'>医療用医薬品リスト</a><!--
+				-->（PMDAの<a target='_blank' href='https://www.pmda.go.jp/PmdaSearch/iyakuSearch/'><!--
+				-->医療用医薬品情報検索</a>より）
+			<li><a href='https://drug.difff.jp/otc_list.txt'>OTC医薬品リスト</a><!--
+				-->（PMDAの<a target='_blank' href='https://www.pmda.go.jp/PmdaSearch/otcSearch/'><!--
+				-->一般用医薬品・要指導医薬品情報検索</a>より）
+			<li>リスト更新：2020/11/15
 		</ul>
+	<li><a href='https://github.com/meso-cacase/drug.difff.jp/commits/master'><!--
+		-->本サイトの更新履歴</a>
+	<li><a href='https://drug.difff.jp/archive/'>過去のデータ</a>
 </ul>
 </div>
 
 <hr><!-- ____________________ フッタ _______________________ -->
 
-<p><font color=gray>くすりのリスト v.20201115 | @meso_cacase |
-	<a target="_blank" href='https://github.com/meso-cacase/drug.difff.jp'>GitHub</a></font></p>
+<p><font color=gray>
+	くすりのリスト v.20201130 |
+	@meso_cacase |
+	<a target="_blank" href='https://github.com/meso-cacase/drug.difff.jp'>GitHub</a> |
+	Illustration: <a target="_blank" href='https://twitter.com/mummummume'>mum先生</a>
+</font></p>
 
 <!-- _____________________ 検索文書データ ___________________ -->
 
