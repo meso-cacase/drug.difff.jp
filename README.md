@@ -10,8 +10,8 @@
 本ソフトウェアはオープンソースです。どなたでも無償で自由に利用できます。  
 **くすりのリスト** 稼働中： https://drug.difff.jp/
 
-![スクリーンショット](https://user-images.githubusercontent.com/819807/101247128-bf3d9300-375a-11eb-98e9-4523e07362fe.gif
-"スクリーンショット")
+[![スクリーンショット](https://user-images.githubusercontent.com/819807/101247128-bf3d9300-375a-11eb-98e9-4523e07362fe.gif
+"スクリーンショット")](https://drug.difff.jp/)
 
 トップページのイラストを [mum先生](https://twitter.com/mummummume) に描いていただきました。
 
