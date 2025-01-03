@@ -13,9 +13,9 @@ function grep (pattern) {
 	// Satoru Takabayashi先生の記事：
 	// bkブログ『JavaScriptでインクリメンタルgrep検索』
 	// http://0xcc.net/blog/archives/000008.html
-	// を参考に実装。
+	// を参考に実装
 	var maxhit = 1000 ;  // ヒット件数の上限
-	var regex  = new RegExp(pattern, 'ig') ;
+	var words  = pattern.trim().split(/\s+/) ;  // スペース区切りでAND検索に対応
 	var text   = document.getElementById('textdata') ;
 	var line   = text.innerHTML.split('\n') ;
 	var hits   = '' ;
@@ -24,12 +24,41 @@ function grep (pattern) {
 		if (!pattern) {
 			break ;  // 検索語が空の場合は処理を打ち切る
 		}
-		if (line[i].match(regex)) {
-			var matched = line[i] ;
+		var matched = line[i] ;
+		if ( words.every(word => new RegExp(word, 'i').test(matched)) ) {
 			var b_name  = matched.match(/^[^\t]+/)[0] ;
 			b_name = b_name.replace(/[v\d\.]+%/gi, ' ') ;      // PMDAのサイトが '○○%' を含むとヒットしない問題を回避
 			b_name = b_name.replace(/＜.*＞/g, ' ') ;           // PMDAのサイトが '＜' または '＞' を含むとヒットしない問題を回避
-			matched = matched.replace(regex, '<em>$&</em>') ;  // ハイライト表示
+
+			// すべてのマッチの開始位置と終了位置を取得
+			var markers = [] ;
+			words.forEach(function(w) {
+				// 先読みすることにより検索語が重なり合っていてもすべて検出できる
+				var regex = new RegExp(`(?=(${w}))`, 'gi') ;
+				var match ;
+				while ((match = regex.exec(matched)) !== null) {
+					// マッチ開始位置に <em>, 終了位置に </em> を挿入
+					markers.push({ pos: match.index, tag: '<em>' }) ;
+					markers.push({ pos: match.index + match[1].length, tag: '</em>' }) ;
+					regex.lastIndex = match.index + 1 ;
+				}
+			}) ;
+
+			// 挿入位置でソート
+			markers.sort(function(a, b) {
+				if (a.pos === b.pos) {
+					// 同じ位置なら </em> を <em> より先に挿入
+					if (a.tag === '</em>' && b.tag === '<em>' ) return -1 ;
+					if (a.tag === '<em>'  && b.tag === '</em>') return  1 ;
+				}
+				return a.pos - b.pos ;
+			}) ;
+
+			for (var k = markers.length - 1 ; k >= 0 ; k--) {
+				var m = markers[k] ;
+				matched = matched.slice(0, m.pos) + m.tag + matched.slice(m.pos) ;
+			}
+
 			if (matched.match(/\t\t/)){                        // 医療用医薬品かOTC医薬品かを判定（OTCは一般名が空欄）
 				matched = matched.replace(/\t/,                // OTC医薬品の添付文書へのリンクを付加
 					' <a target="_blank" class=ln2 href="https://www.pmda.go.jp/PmdaSearch/otcSearch/?btnA.x=44&howtoMatchRadioValue=1&dispColumnsList%5B0%5D=1&dispColumnsList%5B1%5D=2&dispColumnsList%5B2%5D=11&dispColumnsList%5B3%5D=6&updateDocFrDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&updateDocToDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&howtoRdSearchSel=or&relationDoc1Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc1FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc1ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc2FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc3FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&ListRows=10&nameWord=' + encodeURI(b_name) + '">OTC添付文書</a>\t') ;
@@ -37,10 +66,14 @@ function grep (pattern) {
 				matched = matched.replace(/\t/,                // 医療用医薬品の添付文書へのリンクを付加
 					' <a target="_blank" class=ln href="https://www.pmda.go.jp/PmdaSearch/iyakuSearch/?btnA.y=6&iyakuHowtoNameSearchRadioValue=3&howtoMatchRadioValue=1&dispColumnsList%5B0%5D=1&dispColumnsList%5B1%5D=2&dispColumnsList%5B2%5D=3&dispColumnsList%5B3%5D=23&dispColumnsList%5B4%5D=25&dispColumnsList%5B7%5D=4&dispColumnsList%5B8%5D=11&updateDocFrDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&updateDocToDt=%E5%B9%B4%E6%9C%88%E6%97%A5+%5BYYYYMMDD%5D&howtoRdSearchSel=or&relationDoc1Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc1FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc1ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc2FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc2ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3Word=%E6%A4%9C%E7%B4%A2%E8%AA%9E%E3%82%92%E5%85%A5%E5%8A%9B&relationDoc3FrDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&relationDoc3ToDt=%E5%B9%B4%E6%9C%88+%5BYYYYMM%5D&ListRows=10&nameWord=' + encodeURI(b_name) + '">添付文書</a>\t') ;
 			}
-			matched = matched.replace(/^/,  '<tr><td width=45%>') ;   // table整形
-			matched = matched.replace(/\t/, '</td><td width=25%>') ;  // table整形
-			matched = matched.replace(/\t/, '</td><td width=30%>') ;  // table整形
-			matched = matched.replace(/$/,  '</td></tr>') ;           // table整形
+
+			// table整形
+			matched = matched
+				.replace(/^/,  '<tr><td width="45%">')
+				.replace(/\t/, '</td><td width="25%">')
+				.replace(/\t/, '</td><td width="30%">')
+				.replace(/$/,  '</td></tr>') ;
+
 			hits += matched ;
 			count ++ ;
 			if (count > maxhit) {
@@ -48,21 +81,23 @@ function grep (pattern) {
 			}
 		}
 	}
-	var result = document.getElementById('searchresult') ;
-	var hitnum = document.getElementById('hitnumber') ;
+	var searchresult = document.getElementById('searchresult') ;
+	var hitnumber    = document.getElementById('hitnumber') ;
+	var mum          = document.getElementById('mum');
 	if (count == 0 || count > maxhit) {
-		hitnum.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
-		result.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
-		document.getElementById('mum').src = 'mum-top.png' ;
+		hitnumber.style.display    = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
+		searchresult.style.display = 'none' ;  // ヒット件数がゼロまたは多数のとき非表示
+		mum.src = 'mum-top.png' ;
 	} else {
-		hitnum.innerHTML = '<p>検索結果 ' + count + ' 件</p>' ;
-		hitnum.style.display = 'block' ;
-		result.innerHTML = hits ;
-		result.style.display = 'block' ;
+		hitnumber.innerHTML = `<p>検索結果 ${count} 件</p>` ;
+		hitnumber.style.display = 'block' ;
+		searchresult.innerHTML = hits ;
+		searchresult.style.display = 'block' ;
+		// ヒット件数に応じて画像を変える
 		if (count > 50) {
-			document.getElementById('mum').src = 'mum-lot.png' ;
+			mum.src = 'mum-lot.png' ;
 		} else {
-			document.getElementById('mum').src = 'mum-hit.png' ;
+			mum.src = 'mum-hit.png' ;
 		}
 	}
 }
@@ -169,6 +204,11 @@ function grep (pattern) {
 			<li>イン○○○ではじまる軟膏orクリーム（何だっけ???）&rarr;<!--
 				-->「<a href='javascript:query.value="^イン.*(軟膏|クリーム)";grep("^イン.*(軟膏|クリーム)")'>^イン.*(軟膏|クリーム)</a>」
 		</ul>
+	<li>スペースで区切るとAND検索になります：
+		<ul>
+			<li>「<a href='javascript:query.value="レボフロ 点眼 第一三共";grep("レボフロ 点眼 第一三共")'>レボフロ 点眼 第一三共</a>」
+			<li>「<a href='javascript:query.value="^プ 軟膏";grep("^プ 軟膏")'>^プ 軟膏</a>」
+		</ul>
 	<li>本サイトに収録されている医薬品のリスト：
 		<ul>
 			<li><a href='https://drug.difff.jp/iyaku_list.txt'>医療用医薬品リスト</a><!--
@@ -188,7 +228,7 @@ function grep (pattern) {
 <hr><!-- ____________________ フッタ _______________________ -->
 
 <p><font color=gray>
-	くすりのリスト v.20250101 |
+	くすりのリスト v.20250104 |
 	@meso_cacase |
 	<a target='_blank' href='https://github.com/meso-cacase/drug.difff.jp'>GitHub</a> |
 	Illustration: <a target='_blank' href='https://twitter.com/mummummume'>mum先生</a>
